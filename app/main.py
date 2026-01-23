@@ -70,3 +70,7 @@ def get_players(
         q = q.eq("team_id", team_id)
 
     return q.execute().data
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
