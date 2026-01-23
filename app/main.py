@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from app.supabase_client import supabase
 from app.nbb import get_season_stages, get_season_teams, get_stats, get_team_players, sync_season
@@ -74,3 +74,19 @@ def get_players(
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+@app.get("/players/{id}")
+def get_player(id: str):
+    res = (
+        supabase
+        .table("nbb_players")
+        .select("*")
+        .eq("id", id)
+        .limit(1)
+        .execute()
+    )
+
+    if not res.data:
+        raise HTTPException(status_code=404, detail="Player not found")
+
+    return res.data[0]
