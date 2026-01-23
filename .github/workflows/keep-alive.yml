@@ -13,4 +13,4 @@ jobs:
       - name: Ping Render API
         run: |
           echo "Pinging Render..."
-          curl -s -o /dev/null -w "%{http_code}" https://SEU_BACKEND.onrender.com/health
+          curl -s -o /dev/null -w "%{http_code}" https://nbb-api.onrender.com/health
